@@ -32,11 +32,15 @@ final class Version20220307132149 extends AbstractMigration
         $this->addSql('insert into actor(name, key_sing, value_sing) values("King","K",5)');
         $this->addSql('insert into actor(name, key_sing, value_sing) values("Notary","N",2)');
         $this->addSql('insert into actor(name, key_sing, value_sing) values("Validator","V",1)');
+
+        $this->addSql('insert into party(name) values("Plaintiff")');
+        $this->addSql('insert into party(name) values("Defendant")');
     }
 
     public function down(Schema $schema): void
     {
-        $this->addSql('delete * from actor');
+        $this->addSql('delete from actor');
+        $this->addSql('delete from party');
 
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE trail DROP FOREIGN KEY FK_B268858F2576E0FD');
