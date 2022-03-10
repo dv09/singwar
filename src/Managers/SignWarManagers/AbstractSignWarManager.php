@@ -3,10 +3,9 @@
 namespace App\Managers\SignWarManagers;
 
 use Doctrine\ORM\EntityManagerInterface;
-use http\Exception;
-use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityRepository;
 use App\Entity\Contract;
+use App\Constants\SignWarManagerConstants as SWMC;
 
 abstract class AbstractSignWarManager
 {
@@ -33,6 +32,7 @@ abstract class AbstractSignWarManager
         $this->em = $em;
         $this->contractRepository = $em->getRepository(Contract::class);
     }
+
 
     /**
      * @param string $requestContent
@@ -69,11 +69,11 @@ abstract class AbstractSignWarManager
     protected function makeContract():void {
         $contract = new Contract();
         foreach ($this->signs as $sign) {
-            if($sign->getParty()->getRol() === 'PLAINTIFF') {
+            if($sign->getParty()->getRol() === SWMC::ROLS["PLAINTIFF"]) {
                 $contract->setPlaintiff($sign->getParty());
                 $contract->setPlaintiffsign($sign->getPartysign());
             }
-            if($sign->getParty()->getRol() === 'DEFENDANT') {
+            if($sign->getParty()->getRol() === SWMC::ROLS["DEFENDANT"]) {
                 $contract->setDefendant($sign->getParty());
                 $contract->setDefendantsign($sign->getPartysign());
             }
@@ -91,11 +91,11 @@ abstract class AbstractSignWarManager
             $partyRol='';
             $partySign='';
             foreach ($partyData as $partyDataKey => $partyDataValue ) {
-                if( strtoupper($partyDataKey) === 'ROL') $partyRol = $partyDataValue;
-                if( strtoupper($partyDataKey) === 'SIGN') $partySign = $partyDataValue;
+                if( strtoupper($partyDataKey) === SWMC::ROL) $partyRol = $partyDataValue;
+                if( strtoupper($partyDataKey) === SWMC::SIGN) $partySign = $partyDataValue;
             }
 
-            if($partyRol === ''  || $partySign === '') throw new \Exception('Los datos de entrada son incorrectos.');
+            if($partyRol === ''  || $partySign === '') throw new \Exception(SWMC::NO_RIGHT_INPUT_DATA);
 
             $sign = new Sign($partyName, $partyRol ,$partySign, $this->em);
             $this->signs[$sign->getParty()->getId()] = $sign;
@@ -103,6 +103,10 @@ abstract class AbstractSignWarManager
     }
 
 
+    /**
+     * @param Sign|null $winnerSign
+     * @return array
+     */
     protected function makeResponse(?Sign $winnerSign): array {
         $winner = [
             'Id' => $winnerSign->getParty()->getId(),
@@ -123,7 +127,7 @@ abstract class AbstractSignWarManager
         $signatoriesInfo = [];
         foreach ($this->signs as $sign) {
 
-            $partyLabel = $sign->getParty()->getRol() === "DEFENDANT" ? 'forDefendant' : 'forPlaintiff';
+            $partyLabel = $sign->getParty()->getRol() === SWMC::ROLS["DEFENDANT"] ? 'forDefendant' : 'forPlaintiff';
 
             $signatoryInfo = [];
             foreach ($sign->getSignatories() as $signatory) {
@@ -144,6 +148,10 @@ abstract class AbstractSignWarManager
     }
 
 
+    /**
+     * @param $message
+     * @return array[]
+     */
     protected function isTied($message): array {
         return [
             'winner' => [

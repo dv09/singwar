@@ -18,6 +18,9 @@ class LookForTheStrongestManager extends AbstractSignWarManager
     private $actorRepository;
 
 
+    /**
+     * @param EntityManagerInterface $em
+     */
     public function __construct(EntityManagerInterface $em) {
         parent::__construct($em);
         $this->em = $em;
@@ -25,6 +28,10 @@ class LookForTheStrongestManager extends AbstractSignWarManager
     }
 
 
+    /**
+     * @return array|string[]
+     * @throws Exception
+     */
     protected function play(): array {
         /** @var Sign $futureWinnerSign */
         [   'futureLoserSign' => $futureLoserSign,
@@ -45,6 +52,10 @@ class LookForTheStrongestManager extends AbstractSignWarManager
     }
 
 
+    /**
+     * @return sign[]
+     * @throws Exception
+     */
     private function clasifySign(): array {
         try {
             $futureLoserSign = null;
@@ -52,8 +63,8 @@ class LookForTheStrongestManager extends AbstractSignWarManager
 
             /** @var sign $sign */
             foreach ($this->signs as $sign) {
-                if (substr_count($sign->getPartySign(),"#") == 0) $futureLoserSign = $sign;
-                if (substr_count($sign->getPartySign(),"#") == 1) $futureWinnerSign = $sign;
+                if (substr_count($sign->getPartySign(),SWMC::D["QUAD_DIGIT"]) == 0) $futureLoserSign = $sign;
+                if (substr_count($sign->getPartySign(),SWMC::D["QUAD_DIGIT"]) == 1) $futureWinnerSign = $sign;
             }
 
             if (is_null($futureLoserSign)) throw new Exception(SWMC::ONLY_ONE_QUAD_SIGN);
@@ -67,10 +78,15 @@ class LookForTheStrongestManager extends AbstractSignWarManager
     }
 
 
+    /**
+     * @param Sign $futureWinnerSign
+     * @param int $advantage
+     * @return Actor|null
+     */
     private function getActorToWin(Sign $futureWinnerSign, int $advantage): ?Actor {
         /* Compensación V vs K no tiene valor */
         /* Con una K en la firma ganadora y ventaja 0 devolverá una V(aporta 0) -> incrementar la ventaja devolverá una N*/
-        if(strpos($futureWinnerSign->getPartySign(),'K') !== false && $advantage == 0) $advantage = 1;
+        if(strpos($futureWinnerSign->getPartySign(),SWMC::D["KING_DIGIT"]) !== false && $advantage == 0) $advantage = 1;
 
         $actors = $this->actorRepository->findNextToWin($advantage);
 
@@ -84,11 +100,16 @@ class LookForTheStrongestManager extends AbstractSignWarManager
     }
 
 
+    /**
+     * @param Sign $futureWinnerSign
+     * @param Actor $actorToSign
+     * @return string
+     */
     private function getWinnerDigits(Sign $futureWinnerSign, Actor $actorToSign): string {
         return  substr_replace(
             $futureWinnerSign->getPartySign(),
             $actorToSign->getKeySign(),
-            strpos($futureWinnerSign->getPartySign(),'#') ,
+            strpos($futureWinnerSign->getPartySign(),SWMC::D["QUAD_DIGIT"]) ,
             1
         );
     }

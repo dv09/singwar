@@ -8,7 +8,9 @@ use App\Constants\SignWarManagerConstants as SWMC;
 
 class SignBattleManager extends AbstractSignWarManager
 {
-
+    /**
+     * @return array|sign[]|null[]
+     */
     protected function play(): array {
         $winnerSign = null;
         $isTied = false;
