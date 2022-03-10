@@ -21,6 +21,18 @@ class PartyRepository extends ServiceEntityRepository
         parent::__construct($registry, Party::class);
     }
 
+
+    public function findOrAdd(string $partyName, string $partyRol): Party {
+        $party = $this->findOneBy(['name' => $partyName, 'rol' => $partyRol]);
+
+        if(is_null($party)){
+          $party = (new Party())->setName($partyName)->setRol($partyRol);
+          $this->add($party);
+        }
+        return $party;
+    }
+
+
     /**
      * @throws ORMException
      * @throws OptimisticLockException
@@ -44,33 +56,4 @@ class PartyRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
-
-    // /**
-    //  * @return Party[] Returns an array of Party objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Party
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

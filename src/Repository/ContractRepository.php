@@ -25,13 +25,15 @@ class ContractRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Contract $entity, bool $flush = true): void
+    public function add(Contract $entity, bool $flush = true): Contract
     {
         $this->_em->persist($entity);
         if ($flush) {
             $this->_em->flush();
         }
+        return $entity;
     }
+
 
     /**
      * @throws ORMException

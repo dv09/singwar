@@ -45,6 +45,13 @@ class ActorRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function findNextToWin(int $advantage) {
+       return $this->getEntityManager()->createQuery(
+            'SELECT a FROM App\Entity\Actor a WHERE a.valueSign > :advantage'
+       )->setParameter('advantage', $advantage)->getResult();
+    }
+
     // /**
     //  * @return Actor[] Returns an array of Actor objects
     //  */
