@@ -22,6 +22,12 @@ class Party
      */
     private $name;
 
+    /**
+     * @ORM\Column(type="string", length=30)
+     */
+    private $rol;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -36,6 +42,19 @@ class Party
     {
         $this->name = $name;
 
+        return $this;
+    }
+
+    public function getRol(): ?string
+    {
+        return $this->rol;
+    }
+
+    public function setRol(string $rol): self
+    {
+        if(!in_array(strtoupper($rol), ['PLAINTIFF','DEFENDANT'])) throw new \Exception("El rol $rol no está registrado");
+
+        $this->rol = strtoupper($rol);
         return $this;
     }
 }

@@ -26,7 +26,7 @@ class Contract
     /**
      * @ORM\Column(type="string", length=3)
      */
-    private $plaintiffsing;
+    private $plaintiffsign;
 
     /**
      * @ORM\ManyToOne(targetEntity=Party::class)
@@ -37,7 +37,7 @@ class Contract
     /**
      * @ORM\Column(type="string", length=3)
      */
-    private $defendantSing;
+    private $defendantsign;
 
     public function getId(): ?int
     {
@@ -56,14 +56,14 @@ class Contract
         return $this;
     }
 
-    public function getPlaintiffsing(): ?string
+    public function getPlaintiffsign(): ?string
     {
-        return $this->plaintiffsing;
+        return $this->plaintiffsign;
     }
 
-    public function setPlaintiffsing(string $plaintiffsing): self
+    public function setPlaintiffsign(string $plaintiffsign): self
     {
-        $this->plaintiffsing = $plaintiffsing;
+        $this->plaintiffsign = $plaintiffsign;
 
         return $this;
     }
@@ -80,14 +80,14 @@ class Contract
         return $this;
     }
 
-    public function getDefendantSing(): ?string
+    public function getDefendantsign(): ?string
     {
-        return $this->defendantSing;
+        return $this->defendantsign;
     }
 
-    public function setDefendantSing(string $defendantSing): self
+    public function setDefendantsign(string $defendantsign): self
     {
-        $this->defendantSing = $defendantSing;
+        $this->defendantsign = $defendantsign;
 
         return $this;
     }

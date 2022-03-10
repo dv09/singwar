@@ -25,12 +25,17 @@ class Actor
     /**
      * @ORM\Column(type="string", length=1)
      */
-    private $keySing;
+    private $keySign;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $valueSing;
+    private $valueSign;
+
+    /**
+     * @ORM\Column(type="string", length=1 ,nullable="true")
+     */
+    private $nullTo;
 
     public function getId(): ?int
     {
@@ -49,26 +54,38 @@ class Actor
         return $this;
     }
 
-    public function getKeySing(): ?string
+    public function getKeySign(): ?string
     {
-        return $this->keySing;
+        return $this->keySign;
     }
 
-    public function setKeySing(string $keySing): self
+    public function setKeySign(string $keySign): self
     {
-        $this->keySing = $keySing;
+        $this->keySign = $keySign;
 
         return $this;
     }
 
-    public function getValueSing(): ?int
+    public function getValueSign(): ?int
     {
-        return $this->valueSing;
+        return $this->valueSign;
     }
 
-    public function setValueSing(int $valueSing): self
+    public function setValueSign(int $valueSign): self
     {
-        $this->valueSing = $valueSing;
+        $this->valueSign = $valueSign;
+
+        return $this;
+    }
+
+    public function getNullTo(): ?string
+    {
+        return $this->nullTo;
+    }
+
+    public function setNullTo(string $nullTo): self
+    {
+        $this->nullTo = $nullTo;
 
         return $this;
     }
