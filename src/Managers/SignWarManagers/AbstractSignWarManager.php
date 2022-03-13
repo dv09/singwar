@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityRepository;
 use App\Entity\Contract;
 use App\Constants\SignWarManagerConstants as SWMC;
 
-abstract class AbstractSignWarManager
+abstract class AbstractSignWarManager implements SignWarManagerInterface
 {
     /** @var EntityManagerInterface $em */
     private $em;
