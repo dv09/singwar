@@ -1,0 +1,76 @@
+version: "3"
+
+services:
+  php:
+    container_name: php
+    image: johanvanhelden/dockerhero-php-7.4-fpm:latest
+    links:
+      - db
+    volumes:
+     - ./databases:/var/www/databases
+     - .:/var/www/project
+     - /etc/localtime:/etc/localtime:ro
+    working_dir: /var/www/project
+    ports:
+      - "9912:9912"
+    expose:
+      - "9005"
+    dns: 8.8.8.8
+    networks:
+      signwarRed:
+        ipv4_address: 172.25.0.11
+
+  web:
+    container_name: web
+    image: johanvanhelden/dockerhero-nginx:latest
+    links:
+      - php
+    volumes:
+      - ./nginx_conf:/etc/nginx/conf.d/dockerhero/custom
+      - nginx_logs:/var/log/nginx
+      - /etc/localtime:/etc/localtime:ro
+    volumes_from:
+      - php
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8000:8000"
+    dns: 8.8.8.8
+    networks:
+      signwarRed:
+        ipv4_address: 172.25.0.12
+
+  db:
+    container_name: signwar_db
+    image: mysql:5.7.35
+    command: --sql_mode="STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+    volumes:
+      - "database:/var/lib/mysql"
+      - /etc/localtime:/etc/localtime:ro
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: playtowin
+      MYSQL_DATABASE: signwar_db
+    ports:
+      - "3306:3306"
+    networks:
+      signwarRed:
+        ipv4_address: 172.25.0.13
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping"]
+
+volumes:
+  database:
+    driver: "local"
+  nginx_logs:
+    driver: "local"
+
+networks:
+  signwarRed:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.25.0.0/16
+          gateway: 172.25.0.1
