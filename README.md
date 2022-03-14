@@ -11,7 +11,7 @@
 9. Ayuda desde consola -> sudo docker exec -ti php php ./bin/console signwar:play --help
 10. Probar desde consola fase 1  ->  sudo docker exec -ti php php ./bin/console signwar:play --toPlay
 11. Probar desde consola fase 2  ->  sudo docker exec -ti php php ./bin/console signwar:play --toWin
-12 Probar desde http -> hacer post a la url signwar.localtest.me/api/signwar/play 
+12. Probar desde http -> hacer post a la url signwar.localtest.me/api/signwar/play 
 
       con body-raw = 
                         {
@@ -26,7 +26,7 @@
                         }
 
 
-13 Probar desde http -> hacer post a la url signwar.localtest.me/api/signwar/win 
+13. Probar desde http -> hacer post a la url signwar.localtest.me/api/signwar/win 
 
       con body-raw = 
                         {
