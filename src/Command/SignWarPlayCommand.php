@@ -45,8 +45,15 @@ class SignWarPlayCommand extends Command
 
 //        $io->note(sprintf('You passed an argument: %s', "nada..."));
 
-        if ($input->getOption(SWCC::TO_PLAY_OPTION)) { $io->info(SWCC::TO_PLAY_COMMENT); }
-        if ($input->getOption(SWCC::TO_WIN_OPTION)) { $io->info(SWCC::TO_PLAY_COMMENT); }
+        $option = '';
+        if ($input->getOption(SWCC::TO_PLAY_OPTION)) {
+            $option = SWCC::TO_PLAY_OPTION;
+            $io->info(SWCC::TO_PLAY_COMMENT);
+        }
+        if ($input->getOption(SWCC::TO_WIN_OPTION)) {
+            $option = SWCC::TO_WIN_OPTION;
+            $io->info(SWCC::TO_PLAY_COMMENT);
+        }
 
         $partyOneNane = $io->ask(SWCC::PLAINTIFF_NAME, "party1");
         $partyTwoNane = $io->ask(SWCC::DEFENDANT_NAME, "party2");
@@ -58,12 +65,23 @@ class SignWarPlayCommand extends Command
         if ($input->getOption(SWCC::TO_PLAY_OPTION)) $response = ($this->signBattleManager)($requestBody)->manage();
         if ($input->getOption(SWCC::TO_WIN_OPTION)) $response = ($this->lookForTheStrongestManager)($requestBody)->manage();
 
+        $response = $this->makeResponse($response, $option);
+
         $io->success(json_encode($response));
 
         return Command::SUCCESS;
     }
 
 
+    private function makeResponse(array $response, string $option): string {
+        $responseString = "The Winner is:" . $response['winner']['name'] . "(" . $response['winner']['rol'] . ")" . "with " . $response['winner']['signValue'] . " points. ";
+
+        if($option == SWCC::TO_WIN_OPTION) {
+            $responseString .= "And the complete signature is " . $response['winner']['sign'];
+        }
+
+        return $responseString;
+    }
 
 
     private function makeRequestBody(string $partyOneNane, string $partyTwoNane, string $partyOneSing, string $partyTwoSing): array {
