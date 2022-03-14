@@ -12,7 +12,9 @@
 10.Probar desde consola fase 1  ->  sudo docker exec -ti php php ./bin/console signwar:play --toPlay
 11.Probar desde consola fase 2  ->  sudo docker exec -ti php php ./bin/console signwar:play --toWin
 
-Para probar por http se adjunta postman collection. Se adjunta además .zip con imágenes
+# Para probar por http se adjunta postman collection. (signwar.postman_collection.json) 
+
+Se adjunta además .zip con imágenes
 del proceso de consola. No hay interface web.
 
 12. Probar desde http fase 1 -> hacer post a la url signwar.localtest.me/api/signwar/play 
@@ -44,4 +46,6 @@ del proceso de consola. No hay interface web.
                                 "sign" : "NNN"   
                             }
                         }
+                        
+                        
 
