@@ -3,13 +3,8 @@
 namespace App\Command;
 
 use App\Constants\SignWarCommandsConstans as SWCC;
-use App\Entity\Party;
 use App\Managers\SignWarManagers\LookForTheStrongestManager;
-use App\Managers\SignWarManagers\Sign;
 use App\Managers\SignWarManagers\SignBattleManager;
-use App\Managers\SignWarManagers\SignWarManagerInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -42,8 +37,6 @@ class SignWarPlayCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-
-//        $io->note(sprintf('You passed an argument: %s', "nada..."));
 
         $option = '';
         if ($input->getOption(SWCC::TO_PLAY_OPTION)) {
