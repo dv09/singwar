@@ -48,17 +48,20 @@ class SignWarPlayCommand extends Command
         $option = '';
         if ($input->getOption(SWCC::TO_PLAY_OPTION)) {
             $option = SWCC::TO_PLAY_OPTION;
-            $io->info(SWCC::TO_PLAY_COMMENT);
+            $plaintiffAskComment = SWCC::TO_PLAY_PLAINTIFF_SIGN;
+            $defendantAskComment = SWCC::TO_PLAY_PLAINTIFF_SIGN;
         }
         if ($input->getOption(SWCC::TO_WIN_OPTION)) {
             $option = SWCC::TO_WIN_OPTION;
-            $io->info(SWCC::TO_PLAY_COMMENT);
+            $plaintiffAskComment = SWCC::TO_WIN_PLAINTIFF_SIGN;
+            $defendantAskComment = SWCC::TO_WIN_PLAINTIFF_SIGN;
         }
 
+        $io->info(SWCC::TO_PLAY_COMMENT);
         $partyOneNane = $io->ask(SWCC::PLAINTIFF_NAME, "party1");
+        $partyOneSing = $io->ask($plaintiffAskComment,  $input->getOption(SWCC::TO_PLAY_OPTION) ? "KVN" : "K#N");
         $partyTwoNane = $io->ask(SWCC::DEFENDANT_NAME, "party2");
-        $partyOneSing = $io->ask(SWCC::TO_PLAY_PLAINTIFF_SIGN,  $input->getOption(SWCC::TO_PLAY_OPTION) ? "KVN" : "K#N");
-        $partyTwoSing = $io->ask(SWCC::TO_PLAY_PLAINTIFF_SIGN, "KNN");
+        $partyTwoSing = $io->ask($defendantAskComment, "KNN");
 
         $requestBody = json_encode($this->makeRequestBody($partyOneNane, $partyTwoNane, $partyOneSing, $partyTwoSing));
 
@@ -74,13 +77,17 @@ class SignWarPlayCommand extends Command
 
 
     private function makeResponse(array $response, string $option): string {
-        $responseString = "The Winner is:" . $response['winner']['name'] . "(" . $response['winner']['rol'] . ")" . "with " . $response['winner']['signValue'] . " points. ";
+        if(!isset($response['winner']['message'])) {
 
-        if($option == SWCC::TO_WIN_OPTION) {
-            $responseString .= "And the complete signature is " . $response['winner']['sign'];
+            $responseString = "The Winner is:" . $response['winner']['name'] . "(" . $response['winner']['rol'] . ")" . "with " . $response['winner']['signValue'] . " points. ";
+
+            if ($option == SWCC::TO_WIN_OPTION) {
+                $responseString .= "And the complete signature is " . $response['winner']['sign'];
+            }
+            return $responseString;
         }
 
-        return $responseString;
+        return $response['winner']['message'];
     }
 
 

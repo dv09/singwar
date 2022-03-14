@@ -1,0 +1,100 @@
+{
+	"info": {
+		"_postman_id": "e10daf07-8917-46fb-ba31-620d7ab77bd2",
+		"name": "signwar",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "fase1 - empate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"party1\" : {\n        \"rol\" : \"plaintiff\",\n        \"sign\" : \"NNN\"   \n    },\n    \"party2\" : {\n        \"rol\" : \"defendant\",\n        \"sign\" : \"NNN\"   \n    }\n}"
+				},
+				"url": "signwar.localtest.me/api/signwar/play"
+			},
+			"response": []
+		},
+		{
+			"name": "fase2 - empate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"party1\" : {\n        \"rol\" : \"plaintiff\",\n        \"sign\" : \"KKK\"   \n    },\n    \"party2\" : {\n        \"rol\" : \"defendant\",\n        \"sign\" : \"K#K\"   \n    }\n}"
+				},
+				"url": "signwar.localtest.me/api/signwar/win"
+			},
+			"response": []
+		},
+		{
+			"name": "fase1 - plaintiff > defendant",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"party1\" : {\n        \"rol\" : \"plaintiff\",\n        \"sign\" : \"KVN\"   \n    },\n    \"party2\" : {\n        \"rol\" : \"defendant\",\n        \"sign\" : \"NNN\"   \n    }\n}"
+				},
+				"url": "signwar.localtest.me/api/signwar/play"
+			},
+			"response": []
+		},
+		{
+			"name": "fase2 - la firma ya es ganadora",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"party1\" : {\n        \"rol\" : \"plaintiff\",\n        \"sign\" : \"KVV\"   \n    },\n    \"party2\" : {\n        \"rol\" : \"defendant\",\n        \"sign\" : \"KN#\"   \n    }\n}"
+				},
+				"url": "signwar.localtest.me/api/signwar/win"
+			},
+			"response": []
+		},
+		{
+			"name": "fase2 - firma ganadora",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"party1\" : {\n        \"rol\" : \"plaintiff\",\n        \"sign\" : \"KVK\"   \n    },\n    \"party2\" : {\n        \"rol\" : \"defendant\",\n        \"sign\" : \"KN#\"   \n    }\n}"
+				},
+				"url": "signwar.localtest.me/api/signwar/win"
+			},
+			"response": []
+		},
+		{
+			"name": "fase1 - plaintiff < defendant",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"party1\" : {\n        \"rol\" : \"plaintiff\",\n        \"sign\" : \"KVN\"   \n    },\n    \"party2\" : {\n        \"rol\" : \"defendant\",\n        \"sign\" : \"KNN\"   \n    }\n}"
+				},
+				"url": "signwar.localtest.me/api/signwar/play"
+			},
+			"response": []
+		},
+		{
+			"name": "fase1 - nombrar las partes",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"juan\" : {\n        \"rol\" : \"plaintiff\",\n        \"sign\" : \"KVK\"   \n    },\n    \"antonio\" : {\n        \"rol\" : \"defendant\",\n        \"sign\" : \"KKK\"   \n    }\n}"
+				},
+				"url": "signwar.localtest.me/api/signwar/play"
+			},
+			"response": []
+		}
+	]
+}
