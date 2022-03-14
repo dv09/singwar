@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityRepository;
 use App\Entity\Contract;
 use App\Constants\SignWarManagerConstants as SWMC;
 
-abstract class AbstractSignWarManager
+abstract class AbstractSignWarManager implements SignWarManagerInterface
 {
     /** @var EntityManagerInterface $em */
     private $em;
@@ -109,9 +109,9 @@ abstract class AbstractSignWarManager
      */
     protected function makeResponse(?Sign $winnerSign): array {
         $winner = [
-            'Id' => $winnerSign->getParty()->getId(),
-            'Name' => $winnerSign->getParty()->getName(),
-            'Rol' => $winnerSign->getParty()->getRol(),
+            'id' => $winnerSign->getParty()->getId(),
+            'name' => $winnerSign->getParty()->getName(),
+            'rol' => $winnerSign->getParty()->getRol(),
             'sign' => $winnerSign->getPartysign(),
             'signValue' => $winnerSign->getSignValue(),
         ];
@@ -132,9 +132,9 @@ abstract class AbstractSignWarManager
             $signatoryInfo = [];
             foreach ($sign->getSignatories() as $signatory) {
                 $signatoryInfo[] = [
-                    'Id' => $signatory->getId(),
-                    'Symbol' => $signatory->getKeysign(),
-                    'Name' => $signatory->getName()
+                    'id' => $signatory->getId(),
+                    'symbol' => $signatory->getKeysign(),
+                    'name' => $signatory->getName()
                 ];
             }
             $signatoriesInfo[$partyLabel] = $signatoryInfo;
@@ -155,8 +155,8 @@ abstract class AbstractSignWarManager
     protected function isTied($message): array {
         return [
             'winner' => [
-                'Id' => null,
-                'Message' => $message
+                'id' => null,
+                'message' => $message
             ]
         ];
     }
